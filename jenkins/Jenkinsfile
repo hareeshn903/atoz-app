@@ -23,6 +23,7 @@ pipeline {
         SONARQUBE_ENV = "sonar"
 
         KUBECONFIG = credentials('kubeconfig')
+        GITHUB_PAT = credentials('GitHub-pat')
 
     }
 
@@ -169,8 +170,7 @@ pipeline {
 
         withCredentials([
             usernamePassword(
-                credentialsId: 'GitHub-pat'
-                GITHUB_PAT = credentials('GitHub-pat')
+                credentialsId: 'GitHub-pat',
                 usernameVariable: 'GIT_USER',
                 passwordVariable: 'GIT_TOKEN'
             )
@@ -179,7 +179,7 @@ pipeline {
             sh '''
             rm -rf gitops
 
-            git clone https://hareeshn903:${GITHUB_PAT}@github.com/hareeshn903/atoz-gitops.git gitops
+            git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/hareeshn903/atoz-gitops.git gitops
             
 
             cd gitops
