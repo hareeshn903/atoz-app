@@ -170,13 +170,23 @@ pipeline {
 
         withCredentials([
             usernamePassword(
-                credentialsId: 'GitHub-pat',
+                credentialsId: 'github-pat',
                 usernameVariable: 'GIT_USER',
                 passwordVariable: 'GIT_TOKEN'
             )
         ]) {
 
             sh '''
+
+            echo "User=$GIT_USER"
+
+            if [ -n "$GIT_TOKEN" ]; then
+                echo "Token available"
+            else
+                echo "Token missing"
+                    exit 1
+            fi    
+
             rm -rf gitops
 
             git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/hareeshn903/atoz-gitops.git gitops
