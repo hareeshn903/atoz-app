@@ -183,11 +183,9 @@ pipeline {
 
             cd gitops
             echo "Before change:"
-            grep -R "tag:" helm/mini-account-management || true
+            grep -n "tag:" helm/mini-account-management/values.yaml
 
-            sed -i 's/tag:.*/tag: "${IMAGE_TAG}"/' \
-            
-            helm/mini-account-management/values.yaml
+            sed -i 's/tag:.*/tag: "${IMAGE_TAG}"/' helm/mini-account-management/values.yaml
             echo "After:"
             grep -n "tag:" helm/mini-account-management/values.yaml
 
